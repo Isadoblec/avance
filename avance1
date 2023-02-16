@@ -1,0 +1,75 @@
+#include<iostream>
+#include<conio.h>
+#include<stdio.h>
+#include<string> //
+#include<windows.h> //
+
+using namespace std;
+int main()
+{
+    string nomart, gen, clas;
+    string desc, con;
+    int op, item, op2;
+    double prec, total;
+
+    cout << "\n\t Menu";
+    cout << "\n\t 1.-Alta";
+    cout << "\n\t 2.-Modificacion";
+    cout << "\n\t 3-Baja";
+    cout << "\n\t 4.-Lista";
+    cout << "\n\t 5.-Limpiar Pantalla";
+    cout << "\n\t 6.-Salir";
+    cout << "\n\t ingrese una opcion";
+    cin >> op;
+    switch (op)
+    {
+    case 1: //alta
+        cout << "\n\t numero de item del articulo";
+        cin >> item;
+        cout << "\n\t Ingrese el nombre del articulo";
+        cin >> nomart;
+        cout << "\n\t ingrese una descripcion";
+        cin.ignore();
+        getline(cin,desc);
+        cout << "\n\tIngrese el genero";
+        getline(cin, gen);
+        cout << "\n\tIngrese la clasificacion";
+        getline(cin, clas);
+        cout << "\n\tIngrese la consola";
+        getline(cin, con);
+        cout << "\n\t Ingrese el precio";
+        cin >> prec;
+        total = prec * 1.16;
+        cout << "\n\t El precio del articulo con impuesto incluido es: " << total;
+        cout << "\n\t ¿Quiere agregar otro articulo? 1=si otro=no ";
+        cin >> op2;
+        if (op2 == 1)
+        {
+            system("pause");
+            return main();
+        }
+        break;
+    case 2:
+        break;
+    case 3:
+        break;
+    case 4:
+        break;
+    case 5:
+        system("cls"); // limpiar pantalla
+        return main();
+        break;
+    case 6:
+        cout << "bye bye" << endl;
+        exit(1); // cierra la pantalla
+        break;
+    default:
+        cout << "volvemos a intentar";
+        system("cls");
+        return main();
+        break;
+
+    }
+
+
+}
