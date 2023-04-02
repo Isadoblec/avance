@@ -1,0 +1,93 @@
+#include<iostream>
+#include<conio.h>
+#include<stdio.h>
+#include<string>
+#include<windows.h> 
+using namespace std;
+struct inv
+{
+    int item;
+    string art;
+    string gen;
+    string clas;
+    string desc;
+    string con;
+    double prec;
+    double total;
+};
+
+int main()
+{
+    inv reg[3];
+    int op, op2;
+
+    printf("\n\t Menu");
+    printf("\n\t 1.-Alta");
+    printf("\n\t 2.-Modificacion");
+    printf("\n\t 3-Baja");
+    printf("\n\t 4.-Lista");
+    printf("\n\t 5.-Limpiar Pantalla");
+    printf("\n\t 6.-Salir");
+   printf( "\n\t ingrese una opcion");
+    cin >> op;
+    switch (op)
+    {
+    case 1: //alta
+        // ver el valor de i con el que vamos a trabajar
+        for (int i = 1; i < 4; i++)
+        {
+            printf("\n\t numero de item del articulo: ");
+            cin >> reg[i].item;
+            cin.ignore();
+            printf("\n\t Ingrese el nombre del articulo: ");
+            getline(cin, reg[i].art);
+            printf("\n\t ingrese una descripcion: ");
+            getline(cin, reg[i].desc);
+            printf("\n\tIngrese el genero: ");
+            getline(cin, reg[i].gen);
+            printf("\n\tIngrese la clasificacion: ");
+            getline(cin, reg[i].clas);
+            printf("\n\tIngrese la consola: ");
+            getline(cin, reg[i].con);
+            printf("\n\t Ingrese el precio: ");
+            cin>>reg[i].prec;
+            reg[i].total = reg[i].prec * 1.16;
+            printf("\n\t El precio del articulo con impuesto incluido es: %f ", reg[i].total);
+            printf("\n\t\n\t");
+        }
+        return main();
+        break;
+    case 2:
+        break;
+    case 3:
+        break;
+    case 4:
+        for (int j = 1; j<4; j++)
+        {
+             printf( "\n\t numero del item: %d ", reg[j].item);
+             printf( "\n\t articulo: %s ", reg[j].art);
+             printf( "\n\t descripcion: %s ", reg[j].desc);
+             printf( "\n\t genero: %s", reg[j].gen);
+             printf( "\n\t clasificacion: %s", reg[j].clas);
+             printf( "\n\t consola: %s ", reg[j].con);
+             printf( "\n\t precio: %2f", reg[j].prec);
+             printf( "\n\t precio con iva: %2f", reg[j].total);
+             printf( "\n\t\n\t");
+        }
+        break;
+    case 5:
+        system("cls"); // limpiar pantalla
+        return main();
+        break;
+    case 6:
+        cout << "bye bye" << endl;
+        exit(1); // cierra la pantalla
+        break;
+    default:
+        cout << "volvemos a intentar";
+        system("cls");
+        return main();
+        break;
+
+    }
+}
