@@ -1,0 +1,769 @@
+#include <iostream>
+#include <conio.h>
+#include <string.h>
+#include <string>
+#include <fstream>
+#include<stdlib.h>// funcione new y delete
+#include <vector>
+#include<stdio.h>
+#include<direct.h>
+
+
+
+using namespace std;
+void Alta();
+void listas();
+void archivos();
+void eliminar();
+void modificar();
+void iniciando(); 
+struct inventario
+{		//		//		//
+	int item, lanzamiento;
+			//		//
+	double prec, prectot, iva;
+			//		//		//	//		//		//
+	string desc, nomart, status,genero,caract,consola,clasi;
+};
+inventario* art; // puntero
+int prod;
+void veri() // para verse cremas pero de rato
+{
+
+}
+void alta()
+{
+	int mien=0;//mientras
+	int ver;
+	int fech;
+	int re;
+	int con;
+	printf("\n\t ingrese cuantos productos dara de alta ");
+	scanf_s("%d", &prod);
+	art = new inventario[prod];
+	for (int i = 0; i < prod; i++)
+	{
+		printf("\n\t ingresando datos del producto %d", i + 1);
+		do {
+			ver = 0;
+			printf("\n\t ingrese el id del producto ");
+			scanf_s("%d", &mien);
+			for (int k = 0; k < prod; k++)
+			{
+				if (art[k].item == mien)
+				{
+					printf("\n\t numero de item repetido ");
+					ver = 1;
+					break;
+				}
+			}
+		} while (ver == 1);
+		art[i].item = mien;
+		printf("\n\t ingrese el nombre: ");
+		cin.ignore();
+		getline(cin,art[i].nomart);
+		do {
+			re = 0;
+			printf("\n\t ingrese el año de lanzamiento: ");
+			scanf_s("%d", &fech);
+			if (fech >= 1980 && fech <= 2023)
+			{
+				art[i].lanzamiento = fech;
+				re = 1;
+			}
+		} while (re==0);
+		do {
+			re = 0;
+			printf("\n\t ingrese el numero de la consola:\n\t 1 = Xbox\n\t 2 = PlayStation\n\t 3 = Switch\n\t4 = PC ");
+			cin >> con;
+			switch (con)
+			{
+			case 1: art[i].consola = "Xbox";
+				break;
+			case 2: art[i].consola = "PlayStation";
+				break;
+			case 3: art[i].consola = "Switch";
+				break;
+			case 4: art[i].consola = "PC";
+				break;
+			default: printf("\n\t ingrese un numero valido...");
+				re = 1;
+				break;
+			}
+		} while (re == 1);
+		printf("\n\t ingrese el precio unitario: ");
+		cin >> art[i].prec;
+		art[i].prectot = (art[i].prec) * 1.16;
+		art[i].iva = (art[i].prec * 0.16);
+		cin.ignore();
+		printf("\n\t ingrese la descripcion: ");
+		getline(cin, art[i].desc);
+		//printf("\n\t ingrese el status: ");
+		art[i].status = "Activo";
+		//getline(cin, art[i].status);
+		do
+		{
+			re = 0;
+			printf("\n\t ingrese el numero del genero: ");
+			printf("\n\t1=Aventura \n\t2=Accion \n\t3=Carreras \n\t4=Rol ");
+			scanf_s("%d", &con);
+			switch (con)
+			{
+			case 1: art[i].genero = "Aventura";
+				break;
+			case 2: art[i].genero = "Accion";
+				break;
+			case 3: art[i].genero = "Carreras";
+				break;
+			case 4: art[i].genero = "Rol";
+				break;
+			default: printf("\n\t ingrese un numero valido...");
+				re = 1;
+				break;
+			}
+		} while(re==1);
+		do
+		{
+			re = 0;
+			printf("\n\t ingrese el numero de la calsificacion ");
+			printf("\n\t1=A--> para todo publico \n\t2=B-->+12 años\n\t3=B15-->+15 años \n\t4=C-->adultos+18 ");
+			scanf_s("%d", &con);
+			switch (con)
+			{
+			case 1: art[i].clasi = "A";
+				break;
+			case 2: art[i].clasi = "B";
+				break;
+			case 3: art[i].clasi = "B15";
+				break;
+			case 4: art[i].clasi = "C";
+				break;
+			default: printf("\n\t ingrese un numero valido...");
+				re = 1;
+				break;
+			}
+		} while (re == 1);
+		cin.ignore();
+		printf("\n\t ingrese las caracteristicas: ");
+		getline(cin, art[i].caract);
+		system("cls");
+	}
+	system("pause");
+}
+void list()
+{
+	int z;
+	z = 1;
+	int op;
+	printf("\n\t Bienvenido a la pestaña de lista ");
+	do {
+		printf("\n\t ingrese el numero de la opcion deseada");
+		printf("\n\t 1= filtrar por consola\n\t 2= filtrar por genero \n\t 3=filtrar por categoria");
+		scanf_s("%d", &op);
+		if (op == 1)// consola
+		{
+			int con;
+			do {
+				
+				printf("\n\t ingresa el numero de la consola para filtrar");
+				printf("\n\t 1 = Xbox\n\t 2 = PlayStation\n\t 3 = Switch\n\t4 = PC ");
+				scanf_s("%d", &con);
+				if (con == 1)
+				{
+					for (int l = 0; l < prod; l++)
+					{
+						if (art[l].consola == "Xbox" && art[l].status == "Activo")
+						{
+							printf("\n\t item: %d", art[l].item);
+							printf("\n\t nombre del articulo: %s", art[l].nomart.c_str());
+							printf("\n\t año de lanzamiento: %d", art[l].lanzamiento);
+							printf("\n\t consola: %s", art[l].consola.c_str());
+							printf("\n\t precio unitario: %f", art[l].prec);
+							printf("\n\t IVA: %f", art[l].iva);
+							printf("\n\t precio total: %f", art[l].prectot);
+							printf("\n\t descripcion: %s", art[l].desc.c_str());
+							printf("\n\t genero: %s", art[l].genero.c_str());
+							printf("\n\t clasificacion: %s", art[l].clasi.c_str());
+							printf("\n\t caracteristicas: %s", art[l].caract.c_str());
+						}
+					}
+
+				}
+				else
+				{
+					if (con == 2)
+					{
+						for (int l = 0; l < prod; l++)
+						{
+							if (art[l].consola == "PlayStation" && art[l].status == "Activo")
+							{
+								printf("\n\t item: %d", art[l].item);
+								printf("\n\t nombre del articulo: %s", art[l].nomart.c_str());
+								printf("\n\t año de lanzamiento: %d", art[l].lanzamiento);
+								printf("\n\t consola: %s", art[l].consola.c_str());
+								printf("\n\t precio unitario: %f", art[l].prec);
+								printf("\n\t IVA: %f", art[l].iva);
+								printf("\n\t precio total: %f", art[l].prectot);
+								printf("\n\t descripcion: %s", art[l].desc.c_str());
+								printf("\n\t genero: %s", art[l].genero.c_str());
+								printf("\n\t clasificacion: %s", art[l].clasi.c_str());
+								printf("\n\t caracteristicas: %s", art[l].caract.c_str());
+							}
+						}
+					}
+					else
+					{
+						if (con == 3)
+						{
+							for (int l = 0; l < prod; l++)
+							{
+								if (art[l].consola == "Switch" && art[l].status == "Activo")
+								{
+									printf("\n\t item: %d", art[l].item);
+									printf("\n\t item: %s", art[l].nomart.c_str());
+									printf("\n\t año de lanzamiento: %d", art[l].lanzamiento);
+									printf("\n\t consola: %s", art[l].consola.c_str());
+									printf("\n\t precio unitario: %f", art[l].prec);
+									printf("\n\t IVA: %f", art[l].iva);
+									printf("\n\t precio total: %f", art[l].prectot);
+									printf("\n\t descripcion: %s", art[l].desc.c_str());
+									printf("\n\t genero: %s", art[l].genero.c_str());
+									printf("\n\t clasificacion: %s", art[l].clasi.c_str());
+									printf("\n\t caracteristicas: %s", art[l].caract.c_str());
+								}
+							}
+						}
+						else
+						{
+							if (con == 4)
+							{
+								for (int l = 0; l < prod; l++)
+								{
+									if (art[l].consola == "PC" && art[l].status == "Activo")
+									{
+										printf("\n\t item: %d", art[l].item);
+										printf("\n\t item: %s", art[l].nomart.c_str());
+										printf("\n\t año de lanzamiento: %d", art[l].lanzamiento);
+										printf("\n\t consola: %s", art[l].consola.c_str());
+										printf("\n\t precio unitario: %f", art[l].prec);
+										printf("\n\t IVA: %f", art[l].iva);
+										printf("\n\t precio total: %f", art[l].prectot);
+										printf("\n\t descripcion: %s", art[l].desc.c_str());
+										printf("\n\t genero: %s", art[l].genero.c_str());
+										printf("\n\t clasificacion: %s", art[l].clasi.c_str());
+										printf("\n\t caracteristicas: %s", art[l].caract.c_str());
+									}
+								}
+							}
+							else
+							{
+								con = 5;
+							}
+						}
+					}
+				}
+			} while (con == 5);
+
+		}
+		else 
+		{
+			if (op == 2)// genero
+			{
+				int con;
+				do {
+
+					printf("\n\t ingresa el genero");
+					printf("\n\t1=Aventura \n\t2=Accion \n\t3=Carreras \n\t4=Rol ");
+					scanf_s("%d", &con);
+					if (con == 1)
+					{
+						for (int l = 0; l < prod; l++)
+						{
+							if (art[l].genero == "Aventura" && art[l].status == "Activo")
+							{
+								printf("\n\t item: %d", art[l].item);
+								printf("\n\t item: %s", art[l].nomart.c_str());
+								printf("\n\t año de lanzamiento: %d", art[l].lanzamiento);
+								printf("\n\t consola: %s", art[l].consola.c_str());
+								printf("\n\t precio unitario: %f", art[l].prec);
+								printf("\n\t IVA: %f", art[l].iva);
+								printf("\n\t precio total: %f", art[l].prectot);
+								printf("\n\t descripcion: %s", art[l].desc.c_str());
+								printf("\n\t genero: %s", art[l].genero.c_str());
+								printf("\n\t clasificacion: %s", art[l].clasi.c_str());
+								printf("\n\t caracteristicas: %s", art[l].caract.c_str());
+							}
+						}
+
+					}
+					else
+					{
+						if (con == 2)
+						{
+							for (int l = 0; l < prod; l++)
+							{
+								if (art[l].genero == "Accion" && art[l].status == "Activo")
+								{
+									printf("\n\t item: %d", art[l].item);
+									printf("\n\t item: %s", art[l].nomart.c_str());
+									printf("\n\t año de lanzamiento: %d", art[l].lanzamiento);
+									printf("\n\t consola: %s", art[l].consola.c_str());
+									printf("\n\t precio unitario: %f", art[l].prec);
+									printf("\n\t IVA: %f", art[l].iva);
+									printf("\n\t precio total: %f", art[l].prectot);
+									printf("\n\t descripcion: %s", art[l].desc.c_str());
+									printf("\n\t genero: %s", art[l].genero.c_str());
+									printf("\n\t clasificacion: %s", art[l].clasi.c_str());
+									printf("\n\t caracteristicas: %s", art[l].caract.c_str());
+								}
+							}
+						}
+						else
+						{
+							if (con == 3)
+							{
+								for (int l = 0; l < prod; l++)
+								{
+									if (art[l].genero == "Carreras" && art[l].consola == "Activo")
+									{
+										printf("\n\t item: %d", art[l].item);
+										printf("\n\t item: %s", art[l].nomart.c_str());
+										printf("\n\t año de lanzamiento: %d", art[l].lanzamiento);
+										printf("\n\t consola: %s", art[l].consola.c_str());
+										printf("\n\t precio unitario: %f", art[l].prec);
+										printf("\n\t IVA: %f", art[l].iva);
+										printf("\n\t precio total: %f", art[l].prectot);
+										printf("\n\t descripcion: %s", art[l].desc.c_str());
+										printf("\n\t genero: %s", art[l].genero.c_str());
+										printf("\n\t clasificacion: %s", art[l].clasi.c_str());
+										printf("\n\t caracteristicas: %s", art[l].caract.c_str());
+									}
+								}
+							}
+							else
+							{
+								if (con == 4)
+								{
+									for (int l = 0; l < prod; l++)
+									{
+										if (art[l].genero == "Rol" && art[l].consola == "Activo")
+										{
+											printf("\n\t item: %d", art[l].item);
+											printf("\n\t item: %s", art[l].nomart.c_str());
+											printf("\n\t año de lanzamiento: %d", art[l].lanzamiento);
+											printf("\n\t consola: %s", art[l].consola.c_str());
+											printf("\n\t precio unitario: %f", art[l].prec);
+											printf("\n\t IVA: %f", art[l].iva);
+											printf("\n\t precio total: %f", art[l].prectot);
+											printf("\n\t descripcion: %s", art[l].desc.c_str());
+											printf("\n\t genero: %s", art[l].genero.c_str());
+											printf("\n\t clasificacion: %s", art[l].clasi.c_str());
+											printf("\n\t caracteristicas: %s", art[l].caract.c_str());
+										}
+									}
+								}
+								else
+								{
+									con = 5;
+								}
+							}
+						}
+					}
+				} while (con == 5);
+			}
+			else
+			{
+				if (op == 3)// categoria
+				{
+					int con;
+					do {
+
+						printf("\n\t ingresa la categoria");
+						printf("\n\t1=A--> para todo publico \n\t2=B-->+12 años\n\t3=B15-->+15 años \n\t4=C-->adultos+18 ");
+						scanf_s("%d", &con);
+						if (con == 1)
+						{
+							for (int l = 0; l < prod; l++)
+							{
+								if (art[l].clasi == "A" && art[l].status == "Activo")
+								{
+									printf("\n\t item: %d", art[l].item);
+									printf("\n\t item: %s", art[l].nomart.c_str());
+									printf("\n\t año de lanzamiento: %d", art[l].lanzamiento);
+									printf("\n\t consola: %s", art[l].consola.c_str());
+									printf("\n\t precio unitario: %f", art[l].prec);
+									printf("\n\t IVA: %f", art[l].iva);
+									printf("\n\t precio total: %f", art[l].prectot);
+									printf("\n\t descripcion: %s", art[l].desc.c_str());
+									printf("\n\t genero: %s", art[l].genero.c_str());
+									printf("\n\t clasificacion: %s", art[l].clasi.c_str());
+									printf("\n\t caracteristicas: %s", art[l].caract.c_str());
+								}
+							}
+
+						}
+						else
+						{
+							if (con == 2)
+							{
+								for (int l = 0; l < prod; l++)
+								{
+									if (art[l].clasi == "B" && art[l].status == "Activo")
+									{
+										printf("\n\t item: %d", art[l].item);
+										printf("\n\t item: %s", art[l].nomart.c_str());
+										printf("\n\t año de lanzamiento: %d", art[l].lanzamiento);
+										printf("\n\t consola: %s", art[l].consola.c_str());
+										printf("\n\t precio unitario: %f", art[l].prec);
+										printf("\n\t IVA: %f", art[l].iva);
+										printf("\n\t precio total: %f", art[l].prectot);
+										printf("\n\t descripcion: %s", art[l].desc.c_str());
+										printf("\n\t genero: %s", art[l].genero.c_str());
+										printf("\n\t clasificacion: %s", art[l].clasi.c_str());
+										printf("\n\t caracteristicas: %s", art[l].caract.c_str());
+									}
+								}
+							}
+							else
+							{
+								if (con == 3)
+								{
+									for (int l = 0; l < prod; l++)
+									{
+										if (art[l].clasi == "B15" && art[l].status == "Activo")
+										{
+											printf("\n\t item: %d", art[l].item);
+											printf("\n\t item: %s", art[l].nomart.c_str());
+											printf("\n\t año de lanzamiento: %d", art[l].lanzamiento);
+											printf("\n\t consola: %s", art[l].consola.c_str());
+											printf("\n\t precio unitario: %f", art[l].prec);
+											printf("\n\t IVA: %f", art[l].iva);
+											printf("\n\t precio total: %f", art[l].prectot);
+											printf("\n\t descripcion: %s", art[l].desc.c_str());
+											printf("\n\t genero: %s", art[l].genero.c_str());
+											printf("\n\t clasificacion: %s", art[l].clasi.c_str());
+											printf("\n\t caracteristicas: %s", art[l].caract.c_str());
+										}
+									}
+								}
+								else
+								{
+									if (con == 4)
+									{
+										for (int l = 0; l < prod; l++)
+										{
+											if (art[l].clasi== "C" && art[l].status == "Activo")
+											{
+												printf("\n\t item: %d", art[l].item);
+												printf("\n\t item: %s", art[l].nomart.c_str());
+												printf("\n\t año de lanzamiento: %d", art[l].lanzamiento);
+												printf("\n\t consola: %s", art[l].consola.c_str());
+												printf("\n\t precio unitario: %f", art[l].prec);
+												printf("\n\t IVA: %f", art[l].iva);
+												printf("\n\t precio total: %f", art[l].prectot);
+												printf("\n\t descripcion: %s", art[l].desc.c_str());
+												printf("\n\t genero: %s", art[l].genero.c_str());
+												printf("\n\t clasificacion: %s", art[l].clasi.c_str());
+												printf("\n\t caracteristicas: %s", art[l].caract.c_str());
+											}
+										}
+									}
+									else
+									{
+										con = 5;
+									}
+								}
+							}
+						}
+					} while (con == 5);
+				}
+				else
+				{
+					z = 0;// se repite
+				}
+			}
+		}
+	} while (z == 0);
+}
+void baja(){
+	int za;
+	printf("\n\t Bienvenido a la pestaña de dar de baja ");
+	printf("\n\t Menu \n\t ingresa el numero del item que desea eliminar ");
+	scanf_s("%d", &za);
+	for (int u = 0; u < prod; u++)
+	{
+		if (za == art[u].item)
+		{
+			int cam = 1;
+			int campo = 0;
+			printf("\n\t datos del articulo: ");
+			printf("\n\t item: %d", art[u].item);
+			printf("\n\t nombre del articulo: %s", art[u].nomart.c_str());
+			printf("\n\t año de lanzamiento: %d", art[u].lanzamiento);
+			printf("\n\t consola: %s", art[u].consola.c_str());
+			printf("\n\t precio unitario: %f", art[u].prec);
+			printf("\n\t IVA: %f", art[u].iva);
+			printf("\n\t precio total: %f", art[u].prectot);
+			printf("\n\t descripcion: %s", art[u].desc.c_str());
+			printf("\n\t genero: %s", art[u].genero.c_str());
+			printf("\n\t clasificacion: %s", art[u].clasi.c_str());
+			printf("\n\t caracteristicas: %s", art[u].caract.c_str());
+			art[u].item = 0;
+			art[u].nomart = "";
+			art[u].lanzamiento = 0;
+			art[u].consola = "";
+			art[u].prec = 0;
+			art[u].iva = 0;
+			art[u].prectot = 0;
+			art[u].desc = "";
+			art[u].genero = "";
+			art[u].clasi = "";
+			art[u].caract = "";
+			art[u].status = "ELIMINADO";
+		}
+	}
+			
+
+}
+void modi(){
+	int opc;
+	printf("\n\t Bienvenido a la pestaña de modificar ");
+	printf("\n\t Menu \n\t ingresa el numero del item que desea modificar ");
+	scanf_s("%d", &opc);
+	for (int u = 0; u < prod; u++)
+	{
+		if (opc == art[u].item)
+		{
+			int cam=1;
+			int campo=0;
+			do {
+				printf("\n\t datos del articulo: ");
+				printf("\n\t item: %d", art[u].item);
+				printf("\n\t nombre del articulo: %s", art[u].nomart.c_str());
+				printf("\n\t año de lanzamiento: %d", art[u].lanzamiento);
+				printf("\n\t consola: %s", art[u].consola.c_str());
+				printf("\n\t precio unitario: %f", art[u].prec);
+				printf("\n\t IVA: %f", art[u].iva);
+				printf("\n\t precio total: %f", art[u].prectot);
+				printf("\n\t descripcion: %s", art[u].desc.c_str());
+				printf("\n\t genero: %s", art[u].genero.c_str());
+				printf("\n\t clasificacion: %s", art[u].clasi.c_str());
+				printf("\n\t caracteristicas: %s", art[u].caract.c_str());
+				printf("\n\t ingrese el numero de campo a modificar: ");
+				printf("\n\t 1= item\n\t 2=nombre\n\t 3=año\n\t 4=consola\n\t 5=precio unitario");
+				printf("\n\t 6=descripcion\n\t 7=clasificacion\n\t 8=caracteristicas\n\t 9=genero");
+				scanf_s("%d", campo);
+				switch (campo)
+				{
+				case 1:
+					int ver; 
+					int mien;
+					do {
+						
+						printf("\n\t ingrese el id del producto ");
+						scanf_s("%d", &mien);
+						for (int k = 0; k < prod; k++)
+						{
+							if (art[k].item == mien)
+							{
+								printf("\n\t numero de item repetido ");
+								ver = 1;
+								break;
+							}
+						}
+					} while (ver == 1);
+					art[u].item = mien;
+					break;
+				case 2:
+					printf("\n\t ingrese el nombre: ");
+					cin.ignore();
+					getline(cin, art[u].nomart);
+					break; 
+				case 3:
+					int fech;
+					int re;
+					do {
+						re = 0;
+						printf("\n\t ingrese el año de lanzamiento: ");
+						scanf_s("%d", &fech);
+						if (fech >= 1980 && fech <= 2023)
+						{
+							art[u].lanzamiento = fech;
+							re = 1;
+						}
+					} while (re == 0);
+					break;
+				case 4:
+					do {
+						int con;
+						int re;
+						printf("\n\t ingrese el numero de la consola:\n\t 1 = Xbox\n\t 2 = PlayStation\n\t 3 = Switch\n\t4 = PC ");
+						cin >> con;
+						switch (con)
+						{
+						case 1: art[u].consola = "Xbox";
+							break;
+						case 2: art[u].consola = "PlayStation";
+							break;
+						case 3: art[u].consola = "Switch";
+							break;
+						case 4: art[u].consola = "PC";
+							break;
+						default: printf("\n\t ingrese un numero valido...");
+							re = 1;
+							break;
+						}
+					} while (re == 1);
+					break;
+				case 5:printf("\n\t ingrese el precio unitario: ");
+					cin >> art[u].prec;
+					art[u].prectot = (art[u].prec) * 1.16;
+					art[u].iva = (art[u].prec * 0.16);
+					break;
+				case 6:
+					cin.ignore();
+					printf("\n\t ingrese la descripcion: ");
+					getline(cin, art[u].desc);
+					break;
+				case 7:
+				do
+				{
+					int con;
+					int re;
+					printf("\n\t ingrese el numero de la calsificacion ");
+					printf("\n\t1=A--> para todo publico \n\t2=B-->+12 años\n\t3=B15-->+15 años \n\t4=C-->adultos+18 ");
+					scanf_s("%d", &con);
+					switch (con)
+					{
+					case 1: art[u].clasi = "A";
+						break;
+					case 2: art[u].clasi = "B";
+						break;
+					case 3: art[u].clasi = "B15";
+						break;
+					case 4: art[u].clasi = "C";
+						break;
+					default: printf("\n\t ingrese un numero valido...");
+						re = 1;
+						break;
+					}
+				} while (re == 1);
+					break;
+				case 8:cin.ignore();
+					printf("\n\t ingrese la descripcion: ");
+					getline(cin, art[u].caract);
+					break;
+				case 9:
+					do
+					{
+						int con;
+						int re;
+					printf("\n\t ingrese el numero del genero: ");
+					printf("\n\t1=Aventura \n\t2=Accion \n\t3=Carreras \n\t4=Rol ");
+					scanf_s("%d", &con);
+					switch (con)
+					{
+					case 1: art[u].genero = "Aventura";
+						break;
+					case 2: art[u].genero = "Accion";
+						break;
+					case 3: art[u].genero = "Carreras";
+						break;
+					case 4: art[u].genero = "Rol";
+						break;
+					default: printf("\n\t ingrese un numero valido...");
+						re = 1;
+						break;
+					}
+				} while (re == 1);
+					break;
+				default: cam = 0;
+					break;
+				}
+			} while (cam == 0);
+		}
+	}
+}
+void archi()
+{
+	ofstream stream_salida;
+	ifstream canal_entrada;
+	string newpath = "C:/Users/Isacc/source/repos/Proyecto final Programacion Basica/Proyecto final Programacion Basica/Tujuegos.text";
+	stream_salida.open(newpath, ios::out);
+	if (stream_salida.fail())
+	{
+		printf("error");
+		exit(1);
+	}
+	if (stream_salida.is_open())
+	{
+		stream_salida << "|| Item ||\t";
+		stream_salida << "|| articulo ||\t";
+		stream_salida << "|| lanzamiento ||\t";
+		stream_salida << "|| consola ||\t";
+		stream_salida << "|| precio ||\t";
+		stream_salida << "|| IVA ||\t";
+		stream_salida << "|| precio total ||\t";
+		stream_salida << "|| descripcion ||\t";
+		stream_salida << "|| genero ||\t";
+		stream_salida << "|| clasificacion ||\t";
+		stream_salida << "|| caracteristicas||\t";
+		stream_salida << "\n\n";
+		for (int l = 0; l < prod; l++)
+		{
+			if (art[l].status == "Activo")
+			{
+				stream_salida <<"||"<<art[l].item << "||\t";
+				stream_salida << "||" << art[l].nomart.c_str() << "||\t";
+				stream_salida << "||" << art[l].lanzamiento << "||\t";
+				stream_salida << "||" << art[l].consola.c_str() << "||\t";
+				stream_salida << "||" << art[l].prec << "||\t";
+				stream_salida << "||" << art[l].iva << "||\t";
+				stream_salida << "||" << art[l].prectot << "\t";
+				stream_salida << "||" << art[l].desc.c_str() << "||\t";
+				stream_salida << "||" << art[l].genero.c_str() << "||\t";
+				stream_salida << "||" << art[l].clasi.c_str() << "||\t";
+				stream_salida << "||" << art[l].caract.c_str() << "||\t";
+				stream_salida << "\n";
+			}
+		}
+		stream_salida.close();
+		printf("\n\t adios!");
+		system("Pause");
+		exit(1);
+	}
+}
+
+void main()
+{
+	int op;
+	printf("\n\t Bienvenido a tuJuegos ");
+	printf("\n\t ingrese el numero de la opcion deseada");
+	printf("\n\t 1.- Alta de articulos \n\t 2.- Modificar \n\t 3.- Baja de articulos \n\t 4.- Lista de articulos");
+	printf("\n\t 5.- Limpiar pantalla \n\t 6.- Salir ");
+	scanf_s("%d", &op);
+	switch (op)
+	{
+	case 1: alta();
+		main();
+		break;
+	case 2:modi();
+		main();
+		break;
+	case 3:baja();
+		main();
+		break;
+	case 4:list();
+		main();
+		break;
+	case 5:system("cls");
+		main();
+		break;
+	case 6: archi();
+		main();
+		break;
+	default:
+		break;
+	}
+
+}
