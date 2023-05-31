@@ -552,7 +552,7 @@ void modi(){
 				printf("\n\t ingrese el numero de campo a modificar: ");
 				printf("\n\t 1= item\n\t 2=nombre\n\t 3=año\n\t 4=consola\n\t 5=precio unitario");
 				printf("\n\t 6=descripcion\n\t 7=clasificacion\n\t 8=caracteristicas\n\t 9=genero");
-				scanf_s("%d", campo);
+				scanf_s("%d", &campo);
 				switch (campo)
 				{
 				case 1:
